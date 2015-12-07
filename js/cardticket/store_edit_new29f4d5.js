@@ -3,7 +3,9 @@ function(e) {
     "use strict";
     function t() {
         var e = S.trimdata(T.serializeObject());
-        if (!e.address) return u.err("请输入详细地址"),
+        if (!e.address) {
+			return u.err("请输入详细地址");
+		}
         $("#searchSubmit").focus(),
         !1;
         if (!e.sosomap_poi_uid) {
@@ -25,20 +27,22 @@ function(e) {
             s = ["avg_price", "desc", "open_time", "recommend", "branch_name", "business_name", "category", "telephone", "special", "province", "city", "district", "latitude", "longitude"], o = 0; o < s.length; o++) {
                 var n = s[o];
                 if (e.hasOwnProperty(n) && e[n] != g[n]) {
-                    r = !1;
+                    r = false;
                     break;
                 }
             }
-            if (r) for (var o = 0; o < e.pic_count; o++) {
-                if (!g.pic_urls) {
-                    r = !1;
-                    break;
-                }
-                if (g.pic_urls[o] != e["pic_url" + o]) {
-                    r = !1;
-                    break;
-                }
-            }
+            if (r) {
+				for (var o = 0; o < e.pic_count; o++) {
+					if (!g.pic_urls) {
+						r = false;
+						break;
+					}
+					if (g.pic_urls[o] != e["pic_url" + o]) {
+						r = false;
+						break;
+					}
+				}
+			}
             if (r) return u.err("请按照审核意见修改后再次提交"),
             !1;
         }
@@ -79,7 +83,7 @@ function(e) {
     u = e("common/wx/Tips.js"),
     _ = e("common/wx/Cgi.js"),
     h = e("biz_web/lib/store.js"),
-    v = e("cardticket/multi_pic_upload.js"),
+    multi_pic_upload = e("cardticket/multi_pic_upload.js"),
     j = e("biz_web/lib/json.js"),
     f = "__STORE__business_name_key",
     b = "__STORE__location_key",
@@ -363,7 +367,7 @@ function(e) {
     var F = wx.cgiData.data,
     W = F.pic_url;
     $.isArray(W) || (W = [W]);
-    var q = new v({
+    var q = new multi_pic_upload({
         data: F.pic_urls,
         container: "#js_upload_wrp"
     });
